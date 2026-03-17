@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ProTranslator — Speak Every Language</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+
+<!-- Floating orbs background -->
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="logo">Pro<span>Translator</span></div>
+  <div class="nav-langs">
+    <span>20 Languages</span>
+    <span class="dot">·</span>
+    <span>AI Powered</span>
+    <span class="dot">·</span>
+    <span>Instant</span>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-text">
+    <div class="hero-tag">✦ Powered by Claude AI</div>
+    <h1>Break Every<br><em>Language Barrier</em></h1>
+    <p>Translate instantly between 20 languages with AI precision. From casual conversations to professional documents.</p>
+  </div>
+  <!-- Language flags strip -->
+  <div class="lang-strip">
+    <div class="strip-inner">
+      <span>🇬🇧 English</span><span>🇮🇳 Hindi</span><span>🇯🇵 Japanese</span>
+      <span>🇫🇷 French</span><span>🇩🇪 German</span><span>🇪🇸 Spanish</span>
+      <span>🇨🇳 Chinese</span><span>🇰🇷 Korean</span><span>🇷🇺 Russian</span>
+      <span>🇮🇹 Italian</span><span>🇧🇷 Portuguese</span><span>🇸🇦 Arabic</span>
+      <span>🇧🇩 Bengali</span><span>🇹🇷 Turkish</span><span>🇻🇳 Vietnamese</span>
+      <!-- repeat for scroll -->
+      <span>🇬🇧 English</span><span>🇮🇳 Hindi</span><span>🇯🇵 Japanese</span>
+      <span>🇫🇷 French</span><span>🇩🇪 German</span><span>🇪🇸 Spanish</span>
+      <span>🇨🇳 Chinese</span><span>🇰🇷 Korean</span><span>🇷🇺 Russian</span>
+    </div>
+  </div>
+</header>
+
+<!-- Translator Card -->
+<main class="translator-section">
+  <div class="translator-card">
+
+    <!-- Language Selectors -->
+    <div class="lang-bar">
+      <div class="lang-selector">
+        <label>Translate From</label>
+        <select id="sourceLang">
+          {% for lang in languages %}
+          <option value="{{ lang }}" {% if lang == 'English' %}selected{% endif %}>{{ lang }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <button class="swap-btn" id="swapBtn" title="Swap languages">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+        </svg>
+      </button>
+
+      <div class="lang-selector">
+        <label>Translate To</label>
+        <select id="targetLang">
+          {% for lang in languages %}
+          <option value="{{ lang }}" {% if lang == 'Hindi' %}selected{% endif %}>{{ lang }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <!-- Text Areas -->
+    <div class="text-panels">
+
+      <!-- Input Panel -->
+      <div class="panel input-panel">
+        <div class="panel-header">
+          <span class="panel-label" id="sourceLabel">English</span>
+          <div class="panel-actions">
+            <button class="action-btn" id="detectBtn" title="Auto-detect language">
+              🔍 Detect
+            </button>
+            <button class="action-btn" id="clearBtn" title="Clear text">
+              ✕ Clear
+            </button>
+          </div>
+        </div>
+        <textarea
+          id="inputText"
+          placeholder="Type or paste your text here..."
+          maxlength="2000"
+        ></textarea>
+        <div class="panel-footer">
+          <span class="char-count"><span id="charCount">0</span> / 2000</span>
+          <button class="translate-btn" id="translateBtn">
+            <span class="btn-text">Translate</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Output Panel -->
+      <div class="panel output-panel">
+        <div class="panel-header">
+          <span class="panel-label" id="targetLabel">Hindi</span>
+          <div class="panel-actions">
+            <button class="action-btn" id="copyBtn" title="Copy translation">
+              📋 Copy
+            </button>
+            <button class="action-btn" id="speakBtn" title="Read aloud">
+              🔊 Listen
+            </button>
+          </div>
+        </div>
+        <div id="outputText" class="output-text">
+          <span class="output-placeholder">Translation appears here...</span>
+        </div>
+        <div class="panel-footer">
+          <span id="translateStatus" class="status-text"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Quick language pairs -->
+  <div class="quick-pairs">
+    <div class="pairs-label">Popular Pairs</div>
+    <div class="pairs-list">
+      <button class="pair-btn" data-src="English" data-tgt="Hindi">EN → HI</button>
+      <button class="pair-btn" data-src="English" data-tgt="Japanese">EN → JA</button>
+      <button class="pair-btn" data-src="English" data-tgt="Spanish">EN → ES</button>
+      <button class="pair-btn" data-src="English" data-tgt="French">EN → FR</button>
+      <button class="pair-btn" data-src="Hindi" data-tgt="English">HI → EN</button>
+      <button class="pair-btn" data-src="English" data-tgt="Chinese">EN → ZH</button>
+      <button class="pair-btn" data-src="English" data-tgt="Arabic">EN → AR</button>
+      <button class="pair-btn" data-src="English" data-tgt="German">EN → DE</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- Stats -->
+<section class="stats-section">
+  <div class="stat-item">
+    <span class="stat-num">20</span>
+    <span class="stat-label">Languages</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-num">AI</span>
+    <span class="stat-label">Powered</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-num">∞</span>
+    <span class="stat-label">Translations</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-num">Free</span>
+    <span class="stat-label">Always</span>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>ProTranslator — Built with Claude AI · All 20 languages · Vivek Pathak</p>
+</footer>
+
+<!-- Loading overlay -->
+<div id="loadingOverlay" class="loading-overlay hidden">
+  <div class="loader-box">
+    <div class="loader-dots">
+      <span></span><span></span><span></span>
+    </div>
+    <p id="loaderText">Translating...</p>
+  </div>
+</div>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
