@@ -5,58 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ProTranslator — Speak Every Language</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,700;1,900&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/style.css"/>
 </head>
 <body>
 
-<!-- Floating orbs background -->
-<div class="bg-orbs">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
+<div class="bg-deco">
+  <div class="deco-circle deco-1"></div>
+  <div class="deco-circle deco-2"></div>
+  <div class="deco-circle deco-3"></div>
 </div>
 
-<!-- Nav -->
 <nav class="nav">
-  <div class="logo">Pro<span>Translator</span></div>
-  <div class="nav-langs">
-    <span>20 Languages</span>
-    <span class="dot">·</span>
-    <span>AI Powered</span>
-    <span class="dot">·</span>
-    <span>Instant</span>
+  <div class="logo">
+    <div class="logo-icon">🌍</div>
+    Pro<span>Translator</span>
   </div>
+  <div class="nav-pill"><span>20</span> Languages · AI Powered</div>
 </nav>
 
-<!-- Hero -->
 <header class="hero">
-  <div class="hero-text">
-    <div class="hero-tag">✦ Powered by Claude AI</div>
-    <h1>Break Every<br><em>Language Barrier</em></h1>
-    <p>Translate instantly between 20 languages with AI precision. From casual conversations to professional documents.</p>
-  </div>
-  <!-- Language flags strip -->
-  <div class="lang-strip">
-    <div class="strip-inner">
-      <span>🇬🇧 English</span><span>🇮🇳 Hindi</span><span>🇯🇵 Japanese</span>
-      <span>🇫🇷 French</span><span>🇩🇪 German</span><span>🇪🇸 Spanish</span>
-      <span>🇨🇳 Chinese</span><span>🇰🇷 Korean</span><span>🇷🇺 Russian</span>
-      <span>🇮🇹 Italian</span><span>🇧🇷 Portuguese</span><span>🇸🇦 Arabic</span>
-      <span>🇧🇩 Bengali</span><span>🇹🇷 Turkish</span><span>🇻🇳 Vietnamese</span>
-      <!-- repeat for scroll -->
-      <span>🇬🇧 English</span><span>🇮🇳 Hindi</span><span>🇯🇵 Japanese</span>
-      <span>🇫🇷 French</span><span>🇩🇪 German</span><span>🇪🇸 Spanish</span>
-      <span>🇨🇳 Chinese</span><span>🇰🇷 Korean</span><span>🇷🇺 Russian</span>
-    </div>
+  <div class="hero-badge">✦ Powered by Claude AI</div>
+  <h1>Translate Anything,<br><em>Instantly</em></h1>
+  <p>Break language barriers with AI precision. Type in any language, get perfect translations in seconds.</p>
+  <div class="lang-bubbles">
+    <div class="lang-bubble">🇬🇧 English</div>
+    <div class="lang-bubble">🇮🇳 Hindi</div>
+    <div class="lang-bubble">🇯🇵 Japanese</div>
+    <div class="lang-bubble">🇫🇷 French</div>
+    <div class="lang-bubble">🇩🇪 German</div>
+    <div class="lang-bubble">🇪🇸 Spanish</div>
+    <div class="lang-bubble">🇨🇳 Chinese</div>
+    <div class="lang-bubble">🇰🇷 Korean</div>
+    <div class="lang-bubble">🇸🇦 Arabic</div>
+    <div class="lang-bubble">🇷🇺 Russian</div>
   </div>
 </header>
 
-<!-- Translator Card -->
 <main class="translator-section">
   <div class="translator-card">
-
-    <!-- Language Selectors -->
     <div class="lang-bar">
       <div class="lang-selector">
         <label>Translate From</label>
@@ -66,13 +53,7 @@
           {% endfor %}
         </select>
       </div>
-
-      <button class="swap-btn" id="swapBtn" title="Swap languages">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
-        </svg>
-      </button>
-
+      <button class="swap-btn" id="swapBtn" title="Swap languages">⇄</button>
       <div class="lang-selector">
         <label>Translate To</label>
         <select id="targetLang">
@@ -83,27 +64,16 @@
       </div>
     </div>
 
-    <!-- Text Areas -->
     <div class="text-panels">
-
-      <!-- Input Panel -->
       <div class="panel input-panel">
         <div class="panel-header">
           <span class="panel-label" id="sourceLabel">English</span>
           <div class="panel-actions">
-            <button class="action-btn" id="detectBtn" title="Auto-detect language">
-              🔍 Detect
-            </button>
-            <button class="action-btn" id="clearBtn" title="Clear text">
-              ✕ Clear
-            </button>
+            <button class="action-btn" id="detectBtn">🔍 Detect</button>
+            <button class="action-btn" id="clearBtn">✕ Clear</button>
           </div>
         </div>
-        <textarea
-          id="inputText"
-          placeholder="Type or paste your text here..."
-          maxlength="2000"
-        ></textarea>
+        <textarea id="inputText" placeholder="Type or paste your text here..." maxlength="2000"></textarea>
         <div class="panel-footer">
           <span class="char-count"><span id="charCount">0</span> / 2000</span>
           <button class="translate-btn" id="translateBtn">
@@ -113,17 +83,12 @@
         </div>
       </div>
 
-      <!-- Output Panel -->
       <div class="panel output-panel">
         <div class="panel-header">
           <span class="panel-label" id="targetLabel">Hindi</span>
           <div class="panel-actions">
-            <button class="action-btn" id="copyBtn" title="Copy translation">
-              📋 Copy
-            </button>
-            <button class="action-btn" id="speakBtn" title="Read aloud">
-              🔊 Listen
-            </button>
+            <button class="action-btn" id="copyBtn">📋 Copy</button>
+            <button class="action-btn" id="speakBtn">🔊 Listen</button>
           </div>
         </div>
         <div id="outputText" class="output-text">
@@ -133,13 +98,11 @@
           <span id="translateStatus" class="status-text"></span>
         </div>
       </div>
-
     </div>
   </div>
 
-  <!-- Quick language pairs -->
   <div class="quick-pairs">
-    <div class="pairs-label">Popular Pairs</div>
+    <div class="pairs-label">Popular</div>
     <div class="pairs-list">
       <button class="pair-btn" data-src="English" data-tgt="Hindi">EN → HI</button>
       <button class="pair-btn" data-src="English" data-tgt="Japanese">EN → JA</button>
@@ -151,42 +114,20 @@
       <button class="pair-btn" data-src="English" data-tgt="German">EN → DE</button>
     </div>
   </div>
-
 </main>
 
-<!-- Stats -->
 <section class="stats-section">
-  <div class="stat-item">
-    <span class="stat-num">20</span>
-    <span class="stat-label">Languages</span>
-  </div>
-  <div class="stat-divider"></div>
-  <div class="stat-item">
-    <span class="stat-num">AI</span>
-    <span class="stat-label">Powered</span>
-  </div>
-  <div class="stat-divider"></div>
-  <div class="stat-item">
-    <span class="stat-num">∞</span>
-    <span class="stat-label">Translations</span>
-  </div>
-  <div class="stat-divider"></div>
-  <div class="stat-item">
-    <span class="stat-num">Free</span>
-    <span class="stat-label">Always</span>
-  </div>
+  <div class="stat-item"><span class="stat-num">20</span><span class="stat-label">Languages</span></div>
+  <div class="stat-item"><span class="stat-num">AI</span><span class="stat-label">Powered</span></div>
+  <div class="stat-item"><span class="stat-num">∞</span><span class="stat-label">Translations</span></div>
+  <div class="stat-item"><span class="stat-num">Free</span><span class="stat-label">Always</span></div>
 </section>
 
-<footer class="footer">
-  <p>ProTranslator — Built with Claude AI · All 20 languages · Vivek Pathak</p>
-</footer>
+<footer class="footer">ProTranslator — Built with Claude AI · Vivek Pathak · 2025</footer>
 
-<!-- Loading overlay -->
 <div id="loadingOverlay" class="loading-overlay hidden">
   <div class="loader-box">
-    <div class="loader-dots">
-      <span></span><span></span><span></span>
-    </div>
+    <div class="loader-dots"><span></span><span></span><span></span></div>
     <p id="loaderText">Translating...</p>
   </div>
 </div>
