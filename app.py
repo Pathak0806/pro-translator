@@ -1,17 +1,19 @@
 from flask import Flask, render_template, request, jsonify
 import os
-import anthropic
+from deep_translator import GoogleTranslator
+from langdetect import detect as detect_lang, LangDetectException
 
 app = Flask(__name__)
-client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 
 LANGUAGES = {
     "English": "en", "Hindi": "hi", "Japanese": "ja", "French": "fr",
-    "German": "de", "Spanish": "es", "Chinese": "zh", "Korean": "ko",
+    "German": "de", "Spanish": "es", "Chinese": "zh-CN", "Korean": "ko",
     "Russian": "ru", "Italian": "it", "Portuguese": "pt", "Arabic": "ar",
     "Bengali": "bn", "Turkish": "tr", "Vietnamese": "vi", "Thai": "th",
     "Urdu": "ur", "Dutch": "nl", "Polish": "pl", "Romanian": "ro"
 }
+
+LANG_CODE_TO_NAME = {v: k for k, v in LANGUAGES.items()}
 
 @app.route("/")
 def index():
@@ -31,19 +33,14 @@ def translate():
     if source_lang == target_lang:
         return jsonify({"translation": text})
 
-    prompt = f"""Translate the following text from {source_lang} to {target_lang}.
-Return ONLY the translated text — no explanations, no notes, no alternatives.
+    src_code = LANGUAGES.get(source_lang, "en")
+    tgt_code = LANGUAGES.get(target_lang, "hi")
 
-Text: {text}"""
-
-    message = client.messages.create(
-        model="claude-3-5-sonnet-20241022",
-        max_tokens=1024,
-        messages=[{"role": "user", "content": prompt}]
-    )
-
-    translation = message.content[0].text.strip()
-    return jsonify({"translation": translation})
+    try:
+        translated = GoogleTranslator(source=src_code, target=tgt_code).translate(text)
+        return jsonify({"translation": translated})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/api/detect", methods=["POST"])
 def detect():
@@ -51,17 +48,15 @@ def detect():
     text = data.get("text", "").strip()
     if not text:
         return jsonify({"language": "Unknown"})
-
-    prompt = f"""What language is this text written in? Reply with ONLY the language name (e.g. English, Hindi, French).
-Text: {text}"""
-
-    message = client.messages.create(
-        model="claude-3-5-sonnet-20241022",
-        max_tokens=20,
-        messages=[{"role": "user", "content": prompt}]
-    )
-    lang = message.content[0].text.strip()
-    return jsonify({"language": lang})
+    try:
+        code = detect_lang(text)
+        # fix zh-cn
+        if code == "zh-cn" or code == "zh":
+            code = "zh-CN"
+        name = LANG_CODE_TO_NAME.get(code, code.upper())
+        return jsonify({"language": name})
+    except LangDetectException:
+        return jsonify({"language": "Unknown"})
 
 if __name__ == "__main__":
     app.run(debug=False, host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
